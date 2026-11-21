@@ -21,6 +21,7 @@
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
+  overflow-x: clip;
   background: var(--paper);
   color: var(--ink);
   font: 400 17px/1.6 var(--sans);
@@ -142,16 +143,17 @@ section { scroll-margin-top: 80px; }
 .deals, .services, .process, .about, .reviews { padding-top: clamp(64px, 9vw, 120px); }
 
 /* cases */
-.cases { display: grid; grid-template-columns: 1fr 1fr; gap: 56px 40px; }
-.case { display: flex; flex-direction: column; }
+.cases { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px 40px; }
+.case { display: flex; flex-direction: column; min-width: 0; }
+/* Планировка: размер задаёт сам SVG (viewBox 3:2), без height:100% —
+   иначе Safari на iPhone раздувает рисунок и ломает ширину страницы */
 .case-plan {
   background: var(--paper-2);
   padding: 28px 32px;
-  aspect-ratio: 3 / 2;
-  display: flex; align-items: center; justify-content: center;
   color: var(--ink);
+  overflow: hidden;
 }
-.case-plan svg { width: 100%; height: 100%; }
+.case-plan svg { display: block; width: 100%; height: auto; }
 .case-plan .wall { fill: none; stroke: currentColor; stroke-width: 4; stroke-linejoin: miter; }
 .case-plan .iwall { fill: none; stroke: currentColor; stroke-width: 2; }
 .case-plan .win { fill: var(--paper-2); stroke: currentColor; stroke-width: 1; }
@@ -312,7 +314,7 @@ section { scroll-margin-top: 80px; }
 @media (max-width: 720px) {
   body { font-size: 16px; }
   .mark span { display: none; }
-  .cases { grid-template-columns: 1fr; gap: 48px; }
+  .cases { grid-template-columns: minmax(0, 1fr); gap: 48px; }
   .case-plan { padding: 20px; }
   .facts dd { font-size: 14px; }
   .cv { grid-template-columns: 1fr; gap: 28px; }
